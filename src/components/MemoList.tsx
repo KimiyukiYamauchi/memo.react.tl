@@ -1,40 +1,12 @@
-import { FC } from "react";
-import styled from "styled-components";
+import { useCallback, useState } from "react";
 
-interface Props {
-  memos: string[];
-  onClickDelete: (index: number) => void;
-}
+// メモ一覧を管理するカスタムフック
+export const useMemoList = () => {
+  // メモ追加
+  const addTodo = useCallback(() => {}, []);
 
-export const MemoList: FC<Props> = (props) => {
-  const { memos, onClickDelete } = props;
+  // メモ削除
+  const deleteTodo = useCallback(() => {}, []);
 
-  return (
-    <SContainer>
-      <p>メモ一覧</p>
-      <ul>
-        {memos.map((memo, index) => (
-          <li key={memo}>
-            <SMemoWrapper>
-              <p>{memo}</p>
-              <SButton onClick={() => onClickDelete(index)}>削除</SButton>
-            </SMemoWrapper>
-          </li>
-        ))}
-      </ul>
-    </SContainer>
-  );
+  return null;
 };
-
-const SButton = styled.button`
-  margin-left: 16px;
-`;
-const SContainer = styled.div`
-  border: 1px solid #ccc;
-  padding: 16px;
-  margin: 8px;
-`;
-const SMemoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
