@@ -8,6 +8,7 @@ export const App: FC = () => {
       <input type="text" />
       <SButton>追加</SButton>
       <SContainer>
+        <p>メモ一覧</p>
         <ul>
           <li>
             <SMemoWrapper>
