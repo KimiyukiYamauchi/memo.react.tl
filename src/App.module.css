@@ -1,0 +1,12 @@
+.button {
+  margin-left: 16px;
+}
+.container {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 8px;
+}
+.memoWrapper {
+  display: flex;
+  align-items: center;
+}

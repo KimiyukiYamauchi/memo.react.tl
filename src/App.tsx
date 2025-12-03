@@ -1,36 +1,23 @@
 import { FC } from "react";
-import styled from "styled-components";
+import styles from "./App.module.css";
 
 export const App: FC = () => {
   return (
     <div>
       <h1>簡単メモアプリ</h1>
       <input type="text" />
-      <SButton>追加</SButton>
-      <SContainer>
+      <button className={styles.button}>追加</button>
+      <div className={styles.container}>
         <p>メモ一覧</p>
         <ul>
           <li>
-            <SMemoWrapper>
+            <div className={styles.memoWrapper}>
               <p>買い物に行く</p>
-              <SButton>削除</SButton>
-            </SMemoWrapper>
+              <button className={styles.button}>削除</button>
+            </div>
           </li>
         </ul>
-      </SContainer>
+      </div>
     </div>
   );
 };
-
-const SButton = styled.button`
-  margin-left: 16px;
-`;
-const SContainer = styled.div`
-  border: 1px solid #ccc;
-  padding: 16px;
-  margin: 8px;
-`;
-const SMemoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
