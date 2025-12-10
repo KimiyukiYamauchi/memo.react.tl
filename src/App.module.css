@@ -1,6 +1,18 @@
 .button {
   margin-left: 16px;
 }
+.deleteButton {
+  margin-left: 16px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.deleteButton:hover {
+  background-color: #ff5252;
+}
 .container {
   border: 1px solid #ccc;
   padding: 16px;
