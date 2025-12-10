@@ -9,6 +9,8 @@ import {
   createKeyDownHandler,
   createEditMemoHandler,
   createStartEditHandler,
+  parseMarkdownStyles,
+  renderMarkdown,
 } from "./memoOperations";
 
 export const App: FC = () => {
@@ -92,7 +94,14 @@ export const App: FC = () => {
                     style={{ flex: 1, marginRight: "8px" }}
                   />
                 ) : (
-                  <p>{memo}</p>
+                  <div
+                    className={`${styles.memoContent} ${parseMarkdownStyles(
+                      memo
+                    )
+                      .map((style) => styles[style])
+                      .join(" ")}`}
+                    dangerouslySetInnerHTML={{ __html: renderMarkdown(memo) }}
+                  />
                 )}
                 {editingIndex !== index && (
                   <button

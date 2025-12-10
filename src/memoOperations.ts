@@ -109,3 +109,92 @@ export const createStartEditHandler =
     setEditingIndex(index);
     setEditingValue(memos[index]);
   };
+
+// 純粋関数: Markdown記法を解析してCSSクラスのリストを返す
+// 対応: 見出し(#の数)、太字(**)、イタリック(_ _)、コード(``)、リスト(-)、打ち消し(~~)、リンク[text](url)
+export const parseMarkdownStyles = (text: string): string[] => {
+  const styles: string[] = [];
+
+  // 見出し
+  const headingMatch = text.match(/^#{1,6}\s+/);
+  if (headingMatch) {
+    const level = Math.min(headingMatch[0].trim().length, 6);
+    styles.push(`markdown-h${level}`);
+  }
+
+  // 太字: **text**
+  if (/\*\*.*?\*\*/.test(text)) {
+    styles.push("markdown-bold");
+  }
+
+  // イタリック: _text_
+  if (/_.*?_/.test(text)) {
+    styles.push("markdown-italic");
+  }
+
+  // コード: `text`
+  if (/`[^`]+`/.test(text)) {
+    styles.push("markdown-code");
+  }
+
+  // リスト: - text
+  if (/^-\s+.+/m.test(text)) {
+    styles.push("markdown-list");
+  }
+
+  // 打ち消し: ~~text~~
+  if (/~.*?~/.test(text)) {
+    styles.push("markdown-strikethrough");
+  }
+
+  // リンク: [text](url)
+  if (/\[[^\]]+\]\([^)]+\)/.test(text)) {
+    styles.push("markdown-link");
+  }
+
+  return styles;
+};
+
+// 純粋関数: Markdown記法を解析してHTMLに変換
+export const renderMarkdown = (text: string): string => {
+  let rendered = text;
+
+  // 見出し (#... )
+  rendered = rendered.replace(
+    /^(#{1,6})\s+(.*)$/gm,
+    (_, hashes: string, body: string) => {
+      const level = Math.min(hashes.length, 6);
+      return `<h${level}>${body}</h${level}>`;
+    }
+  );
+
+  // リスト (- )
+  let hasList = false;
+  rendered = rendered.replace(/^-\s+(.*)$/gm, (_: string, body: string) => {
+    hasList = true;
+    return `<li>${body}</li>`;
+  });
+  if (hasList) {
+    rendered = `<ul>${rendered}</ul>`;
+  }
+
+  // 太字 **text**
+  rendered = rendered.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+
+  // イタリック _text_
+  rendered = rendered.replace(/_(.*?)_/g, "<em>$1</em>");
+
+  // コード `text`
+  rendered = rendered.replace(/`([^`]+)`/g, "<code>$1</code>");
+
+  // 打ち消し ~~text~~
+  rendered = rendered.replace(/~(.*?)~/g, "<del>$1</del>");
+
+  // リンク [text](url)
+  rendered = rendered.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+  );
+
+  return rendered;
+};
