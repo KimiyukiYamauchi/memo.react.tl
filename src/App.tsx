@@ -7,12 +7,16 @@ import {
   createAddMemoHandler,
   createDeleteMemoHandler,
   createKeyDownHandler,
+  createEditMemoHandler,
+  createStartEditHandler,
 } from "./memoOperations";
 
 export const App: FC = () => {
   const [memos, setMemos] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingValue, setEditingValue] = useState<string>("");
 
   // 初回読み込み時にlocalStorageからメモを読み込む
   useEffect(() => {
@@ -34,6 +38,17 @@ export const App: FC = () => {
     memos
   );
   const handleKeyDown = createKeyDownHandler(handleAdd, inputValue);
+  const handleEditMemo = createEditMemoHandler(
+    setMemos,
+    setEditingIndex,
+    setEditingValue,
+    memos
+  );
+  const handleStartEdit = createStartEditHandler(
+    setEditingIndex,
+    setEditingValue,
+    memos
+  );
 
   return (
     <div>
@@ -60,7 +75,33 @@ export const App: FC = () => {
               }}
             >
               <div className={styles.memoWrapper}>
-                <p>{memo}</p>
+                {editingIndex === index ? (
+                  <input
+                    type="text"
+                    value={editingValue}
+                    onChange={(e) => setEditingValue(e.target.value)}
+                    onBlur={() => handleEditMemo(index, editingValue)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleEditMemo(index, editingValue);
+                      } else if (e.key === "Escape") {
+                        setEditingIndex(null);
+                      }
+                    }}
+                    autoFocus
+                    style={{ flex: 1, marginRight: "8px" }}
+                  />
+                ) : (
+                  <p>{memo}</p>
+                )}
+                {editingIndex !== index && (
+                  <button
+                    className={styles.editButton}
+                    onClick={() => handleStartEdit(index)}
+                  >
+                    編集
+                  </button>
+                )}
                 <button
                   className={styles.deleteButton}
                   onClick={() => handleDelete(index)}

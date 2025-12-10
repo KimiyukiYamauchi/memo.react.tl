@@ -31,6 +31,18 @@ export const deleteMemo = (memos: string[], index: number): string[] => {
   return memos.filter((_, i) => i !== index);
 };
 
+// 純粋関数: メモを編集
+export const editMemo = (
+  memos: string[],
+  index: number,
+  updatedMemo: string
+): string[] => {
+  if (updatedMemo.trim() === "") return memos;
+  const newMemos = [...memos];
+  newMemos[index] = updatedMemo;
+  return newMemos;
+};
+
 // カリー化された純粋関数: メモを追加するハンドラーを返す
 export const createAddMemoHandler =
   (
@@ -68,4 +80,32 @@ export const createKeyDownHandler =
       e.preventDefault();
       handleAdd(inputValue);
     }
+  };
+
+// カリー化された純粋関数: メモを編集するハンドラーを返す
+export const createEditMemoHandler =
+  (
+    setMemos: (memos: string[]) => void,
+    setEditingIndex: (index: number | null) => void,
+    setEditingValue: (value: string) => void,
+    memos: string[]
+  ) =>
+  (index: number, updatedMemo: string) => {
+    const newMemos = editMemo(memos, index, updatedMemo);
+    setMemos(newMemos);
+    saveMemos(newMemos);
+    setEditingIndex(null);
+    setEditingValue("");
+  };
+
+// カリー化された純粋関数: 編集モードを開始するハンドラーを返す
+export const createStartEditHandler =
+  (
+    setEditingIndex: (index: number | null) => void,
+    setEditingValue: (value: string) => void,
+    memos: string[]
+  ) =>
+  (index: number) => {
+    setEditingIndex(index);
+    setEditingValue(memos[index]);
   };

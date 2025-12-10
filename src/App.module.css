@@ -1,6 +1,18 @@
 .button {
   margin-left: 16px;
 }
+.editButton {
+  margin-left: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.editButton:hover {
+  background-color: #45a049;
+}
 .deleteButton {
   margin-left: 16px;
   background-color: #ff6b6b;
