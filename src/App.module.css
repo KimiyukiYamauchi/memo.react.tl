@@ -1,12 +1,97 @@
-.button {
-  margin-left: 16px;
+/* 全体の余白調整 */
+body {
+  font-family: "Helvetica", "Arial", sans-serif;
 }
-.container {
+
+/* 見出しを中央 */
+h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* 入力欄 */
+input[type="text"] {
+  padding: 10px 12px;
+  font-size: 16px;
   border: 1px solid #ccc;
-  padding: 16px;
-  margin: 8px;
+  border-radius: 6px;
+  width: 240px;
+  transition: border-color 0.2s ease;
 }
+
+input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* 追加ボタンと削除ボタン共通 */
+.button {
+  margin-left: 12px;
+  padding: 8px 14px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+/* メモ一覧カード */
+.container {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 20px auto;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 480px;
+  background: #fafafa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* メモ1行 */
 .memoWrapper {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 8px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+/* 最後の行の区切り線を消す */
+.memoWrapper:last-child {
+  border-bottom: none;
+}
+
+/* メモ文章 */
+.memoWrapper p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* 削除ボタン色変更 */
+.memoWrapper .button {
+  background-color: #dc3545;
+}
+
+.memoWrapper .button:hover {
+  background-color: #b02a37;
+}
+
+/* メモ一覧タイトル */
+.container > p {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+  input[type="text"] {
+    width: 180px;
+  }
 }
