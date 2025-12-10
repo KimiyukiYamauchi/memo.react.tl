@@ -14,6 +14,18 @@
 git checkout -b (学生番号)
 ```
 
+#### 3. React モジュールのインストール
+
+```bash
+npm install
+```
+
+#### 4. 開発サーバの起動
+
+```bash
+npm start
+```
+
 ### 提出
 
 #### 1. 以下のスクリプトを実行し、成果物を github に push する
