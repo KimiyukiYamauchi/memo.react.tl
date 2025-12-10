@@ -10,3 +10,11 @@
   display: flex;
   align-items: center;
 }
+.deleteButton {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
