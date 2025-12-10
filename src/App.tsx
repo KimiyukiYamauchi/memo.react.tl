@@ -1,23 +1,40 @@
-import { FC } from "react";
-import styles from "./App.module.css";
+// App.tsx
+import { FC, useState } from "react";
+import { MemoInput } from "./components/MemoInput";
+import { MemoList } from "./components/MemoList";
 
 export const App: FC = () => {
+  // 入力欄の文字列を管理する state
+  const [inputText, setInputText] = useState("");
+  // メモ一覧を管理する state
+  const [memos, setMemos] = useState<string[]>([]);
+
+  // 追加ボタンを押したときの処理
+  const handleAdd = () => {
+    // 何も入力されていなければ何もしない
+    if (inputText.trim() === "") return;
+
+    // 既存のメモに新しいメモを追加
+    setMemos((prevMemos) => [...prevMemos, inputText]);
+
+    // 入力欄を空にする
+    setInputText("");
+  };
+
+  // 削除ボタンを押したときの処理
+  const handleDelete = (index: number) => {
+    setMemos((prevMemos) => prevMemos.filter((_, i) => i !== index));
+  };
+
   return (
     <div>
       <h1>簡単メモアプリ</h1>
-      <input type="text" />
-      <button className={styles.button}>追加</button>
-      <div className={styles.container}>
-        <p>メモ一覧</p>
-        <ul>
-          <li>
-            <div className={styles.memoWrapper}>
-              <p>買い物に行く</p>
-              <button className={styles.button}>削除</button>
-            </div>
-          </li>
-        </ul>
-      </div>
+      <MemoInput
+        inputText={inputText}
+        onInputChange={setInputText}
+        onAdd={handleAdd}
+      />
+      <MemoList memos={memos} onDelete={handleDelete} />
     </div>
   );
 };
