@@ -1,5 +1,5 @@
 // App.tsx
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { MemoInput } from "./components/MemoInput";
 import { MemoList } from "./components/MemoList";
 
@@ -8,6 +8,23 @@ export const App: FC = () => {
   const [inputText, setInputText] = useState("");
   // メモ一覧を管理する state
   const [memos, setMemos] = useState<string[]>([]);
+
+  // -------------------------------------------
+  // ⭐ 初回表示時に localStorage からデータを読み込む
+  // -------------------------------------------
+  useEffect(() => {
+    const saved = localStorage.getItem("memos");
+    if (saved) {
+      setMemos(JSON.parse(saved));
+    }
+  }, []);
+
+  // -------------------------------------------
+  // ⭐ memos が変わるたびに localStorage に保存
+  // -------------------------------------------
+  useEffect(() => {
+    localStorage.setItem("memos", JSON.stringify(memos));
+  }, [memos]);
 
   // 追加ボタンを押したときの処理
   const handleAdd = () => {
