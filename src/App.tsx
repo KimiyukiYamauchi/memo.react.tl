@@ -1,57 +1,63 @@
 // App.tsx
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { MemoInput } from "./components/MemoInput";
 import { MemoList } from "./components/MemoList";
 
-export const App: FC = () => {
-  // 入力欄の文字列を管理する state
-  const [inputText, setInputText] = useState("");
-  // メモ一覧を管理する state
-  const [memos, setMemos] = useState<string[]>([]);
+// メモの型
+export type Memo = {
+  id: string;
+  text: string;
+};
 
-  // -------------------------------------------
-  // ⭐ 初回表示時に localStorage からデータを読み込む
-  // -------------------------------------------
+const STORAGE_KEY = "memos";
+
+export const App: FC = () => {
+  const [memos, setMemos] = useState<Memo[]>([]);
+
+  // 初回だけ localStorage から読み込み
   useEffect(() => {
-    const saved = localStorage.getItem("memos");
+    const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-      setMemos(JSON.parse(saved));
+      try {
+        const parsed: Memo[] = JSON.parse(saved);
+        setMemos(parsed);
+      } catch (e) {
+        console.error("memos の読み込みに失敗しました", e);
+      }
     }
   }, []);
 
-  // -------------------------------------------
-  // ⭐ memos が変わるたびに localStorage に保存
-  // -------------------------------------------
+  // memos が変わるたび保存
   useEffect(() => {
-    localStorage.setItem("memos", JSON.stringify(memos));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
   }, [memos]);
 
-  // 追加ボタンを押したときの処理
-  const handleAdd = () => {
-    // 何も入力されていなければ何もしない
-    if (inputText.trim() === "") return;
+  // 追加
+  const handleAddMemo = (text: string) => {
+    if (text.trim() === "") return;
 
-    // 既存のメモに新しいメモを追加
-    setMemos((prevMemos) => [...prevMemos, inputText]);
+    const newMemo: Memo = {
+      id: crypto.randomUUID(), // ← ここで一意なIDを作る
+      text: text.trim(),
+    };
 
-    // 入力欄を空にする
-    setInputText("");
+    setMemos((prev) => [...prev, newMemo]);
   };
 
-  // 削除ボタンを押したときの処理
-  const handleDelete = (index: number) => {
-    setMemos((prevMemos) => prevMemos.filter((_, i) => i !== index));
+  // 削除（id で消す）
+  const handleDeleteMemo = (id: string) => {
+    setMemos((prev) => prev.filter((memo) => memo.id !== id));
   };
 
   return (
     <div>
       <h1>簡単メモアプリ</h1>
-      <MemoInput
-        inputText={inputText}
-        onInputChange={setInputText}
-        onAdd={handleAdd}
-      />
-      <MemoList memos={memos} onDelete={handleDelete} />
+
+      <MemoInput onAdd={handleAddMemo} />
+
+      <MemoList memos={memos} onDelete={handleDeleteMemo} />
     </div>
   );
 };
+
+export default App;

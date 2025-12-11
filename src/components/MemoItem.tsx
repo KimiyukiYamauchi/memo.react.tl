@@ -1,18 +1,19 @@
+// MemoItem.tsx
 import { FC } from "react";
 import styles from "../App.module.css";
+import type { Memo } from "../App";
 
-interface MemoItemProps {
-  memo: string;
-  index: number;
-  onDelete: (index: number) => void;
-}
+type Props = {
+  memo: Memo;
+  onDelete: (id: string) => void;
+};
 
-export const MemoItem: FC<MemoItemProps> = ({ memo, index, onDelete }) => {
+export const MemoItem: FC<Props> = ({ memo, onDelete }) => {
   return (
     <li>
       <div className={styles.memoWrapper}>
-        <p>{memo}</p>
-        <button className={styles.button} onClick={() => onDelete(index)}>
+        <p>{memo.text}</p>
+        <button className={styles.button} onClick={() => onDelete(memo.id)}>
           削除
         </button>
       </div>

@@ -1,19 +1,22 @@
+// MemoList.tsx
 import { FC } from "react";
-import { MemoItem } from "./MemoItem";
 import styles from "../App.module.css";
+import type { Memo } from "../App";
+import { MemoItem } from "./MemoItem";
 
-interface MemoListProps {
-  memos: string[];
-  onDelete: (index: number) => void;
-}
+type Props = {
+  memos: Memo[];
+  onDelete: (id: string) => void;
+};
 
-export const MemoList: FC<MemoListProps> = ({ memos, onDelete }) => {
+export const MemoList: FC<Props> = ({ memos, onDelete }) => {
   return (
     <div className={styles.container}>
       <p>メモ一覧</p>
       <ul>
-        {memos.map((memo, index) => (
-          <MemoItem key={index} memo={memo} index={index} onDelete={onDelete} />
+        {memos.map((memo) => (
+          // ⭐ key に index ではなく memo.id を使用
+          <MemoItem key={memo.id} memo={memo} onDelete={onDelete} />
         ))}
       </ul>
     </div>
