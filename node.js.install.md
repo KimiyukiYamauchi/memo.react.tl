@@ -26,5 +26,5 @@ npm install
 ## 開発用サーバの起動
 
 ```
-npm start
+npm run dev
 ```

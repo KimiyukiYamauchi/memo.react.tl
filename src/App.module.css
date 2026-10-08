@@ -1,12 +1,75 @@
-.button {
-  margin-left: 16px;
-}
 .container {
-  border: 1px solid #ccc;
-  padding: 16px;
-  margin: 8px;
+  max-width: 480px;
+  margin: 40px auto;
+  font-family: sans-serif;
 }
-.memoWrapper {
+
+.title {
+  font-size: 24px;
+}
+
+.form {
   display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.error {
+  border-color: #e53935;
+  background-color: #ffebee;
+}
+
+.errorMessage {
+  color: #e53935;
+  font-size: 14px;
+  margin: 4px 0 0;
+}
+
+.addButton {
+  padding: 8px 16px;
+}
+
+.subtitle {
+  font-weight: bold;
+  margin-top: 24px;
+}
+
+.empty {
+  color: #999;
+}
+
+.memoList {
+  list-style: none;
+  padding: 0;
+}
+
+.memoItem {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.memoText {
+  margin: 0;
+}
+
+.date {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #999;
+}
+
+.buttons {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
 }
