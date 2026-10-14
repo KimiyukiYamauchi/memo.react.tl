@@ -163,6 +163,7 @@ function App() {
                       value={editText}
                       onChange={(e) => setEditText(e.target.value)}
                       onKeyDown={handleEditKeyDown}
+                      autoFocus
                     />
                     <div className={styles.buttons}>
                       <button onClick={saveEdit}>保存</button>
