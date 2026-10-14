@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { KeyboardEvent } from "react";
 import styles from "./App.module.css";
 
@@ -9,14 +9,32 @@ type Memo = {
   important: boolean;
 };
 
+const STORAGE_KEY = "memos";
+
+// localStorageから保存済みのメモを読み込む
+const loadMemos = (): Memo[] => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+};
+
 function App() {
-  const [memos, setMemos] = useState<Memo[]>([]);
+  // 初回の表示時だけlocalStorageから読み込む
+  const [memos, setMemos] = useState<Memo[]>(loadMemos);
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("oldest");
+
+  // メモが変わるたびにlocalStorageへ保存する
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
+  }, [memos]);
 
   // 検索語を含むメモだけを表示用の配列にする（memos自体は書き換えない）
   const filteredMemos = memos.filter((memo) => memo.text.includes(search));
