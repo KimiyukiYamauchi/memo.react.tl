@@ -42,8 +42,9 @@ function App() {
     }
   };
 
-  // メモを削除する
+  // 確認ダイアログでOKが押されたらメモを削除する
   const deleteMemo = (id: number) => {
+    if (!window.confirm("このメモを削除しますか？")) return;
     setMemos(memos.filter((memo) => memo.id !== id));
   };
 
