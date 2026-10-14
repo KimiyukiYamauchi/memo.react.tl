@@ -14,6 +14,10 @@ function App() {
   const [error, setError] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
+  const [search, setSearch] = useState("");
+
+  // 検索語を含むメモだけを表示用の配列にする（memos自体は書き換えない）
+  const filteredMemos = memos.filter((memo) => memo.text.includes(search));
 
   // メモを追加する
   const addMemo = () => {
@@ -85,13 +89,25 @@ function App() {
       </div>
       {error && <p className={styles.errorMessage}>メモを入力してください</p>}
 
+      <input
+        className={`${styles.input} ${styles.search}`}
+        placeholder="メモを検索"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
       {memos.length === 0 ? (
         <p className={styles.empty}>メモはまだありません</p>
       ) : (
         <>
-          <p className={styles.subtitle}>メモ一覧（{memos.length}件）</p>
+          <p className={styles.subtitle}>
+            メモ一覧（{filteredMemos.length}件 / 全{memos.length}件）
+          </p>
+          {filteredMemos.length === 0 && (
+            <p className={styles.empty}>該当するメモはありません</p>
+          )}
           <ul className={styles.memoList}>
-            {memos.map((memo) => (
+            {filteredMemos.map((memo) => (
               <li key={memo.id} className={styles.memoItem}>
                 {editingId === memo.id ? (
                   <>
