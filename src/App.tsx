@@ -15,9 +15,15 @@ function App() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
   const [search, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("oldest");
 
   // 検索語を含むメモだけを表示用の配列にする（memos自体は書き換えない）
   const filteredMemos = memos.filter((memo) => memo.text.includes(search));
+
+  // コピーしてから作成順（id）で並び替える
+  const sortedMemos = [...filteredMemos].sort((a, b) =>
+    sortOrder === "newest" ? b.id - a.id : a.id - b.id,
+  );
 
   // メモを追加する
   const addMemo = () => {
@@ -101,14 +107,30 @@ function App() {
         <p className={styles.empty}>メモはまだありません</p>
       ) : (
         <>
-          <p className={styles.subtitle}>
-            メモ一覧（{filteredMemos.length}件 / 全{memos.length}件）
-          </p>
+          <div className={styles.listHeader}>
+            <p className={styles.subtitle}>
+              メモ一覧（{filteredMemos.length}件 / 全{memos.length}件）
+            </p>
+            <div className={styles.buttons}>
+              <button
+                onClick={() => setSortOrder("newest")}
+                disabled={sortOrder === "newest"}
+              >
+                新しい順
+              </button>
+              <button
+                onClick={() => setSortOrder("oldest")}
+                disabled={sortOrder === "oldest"}
+              >
+                古い順
+              </button>
+            </div>
+          </div>
           {filteredMemos.length === 0 && (
             <p className={styles.empty}>該当するメモはありません</p>
           )}
           <ul className={styles.memoList}>
-            {filteredMemos.map((memo) => (
+            {sortedMemos.map((memo) => (
               <li key={memo.id} className={styles.memoItem}>
                 {editingId === memo.id ? (
                   <>

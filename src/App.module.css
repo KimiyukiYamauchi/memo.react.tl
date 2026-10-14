@@ -79,3 +79,14 @@
   box-sizing: border-box;
   margin-top: 16px;
 }
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.listHeader .subtitle {
+  margin: 0;
+}
