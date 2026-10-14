@@ -86,6 +86,16 @@ function App() {
     setEditingId(null);
   };
 
+  // 編集中はEnterキーで保存、Escキーでキャンセルする（日本語変換中は除く）
+  const handleEditKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing) return;
+    if (e.key === "Enter") {
+      saveEdit();
+    } else if (e.key === "Escape") {
+      cancelEdit();
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>簡単メモアプリ</h1>
@@ -152,6 +162,7 @@ function App() {
                       className={styles.input}
                       value={editText}
                       onChange={(e) => setEditText(e.target.value)}
+                      onKeyDown={handleEditKeyDown}
                     />
                     <div className={styles.buttons}>
                       <button onClick={saveEdit}>保存</button>
