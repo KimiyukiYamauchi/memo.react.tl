@@ -6,6 +6,7 @@ type Memo = {
   id: number;
   text: string;
   createdAt: string;
+  important: boolean;
 };
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
       id: Date.now(),
       text,
       createdAt: new Date().toLocaleString("ja-JP"),
+      important: false,
     };
     setMemos([...memos, newMemo]);
     setInput("");
@@ -52,6 +54,15 @@ function App() {
   const deleteMemo = (id: number) => {
     if (!window.confirm("このメモを削除しますか？")) return;
     setMemos(memos.filter((memo) => memo.id !== id));
+  };
+
+  // 重要フラグを切り替える
+  const toggleImportant = (id: number) => {
+    setMemos(
+      memos.map((memo) =>
+        memo.id === id ? { ...memo, important: !memo.important } : memo,
+      ),
+    );
   };
 
   // 編集を開始する
@@ -131,7 +142,10 @@ function App() {
           )}
           <ul className={styles.memoList}>
             {sortedMemos.map((memo) => (
-              <li key={memo.id} className={styles.memoItem}>
+              <li
+                key={memo.id}
+                className={`${styles.memoItem} ${memo.important ? styles.important : ""}`}
+              >
                 {editingId === memo.id ? (
                   <>
                     <input
@@ -146,10 +160,17 @@ function App() {
                   </>
                 ) : (
                   <>
-                    <div>
-                      <p className={styles.memoText}>{memo.text}</p>
-                      <p className={styles.date}>{memo.createdAt}</p>
-                    </div>
+                    <label className={styles.memoContent}>
+                      <input
+                        type="checkbox"
+                        checked={memo.important}
+                        onChange={() => toggleImportant(memo.id)}
+                      />
+                      <div>
+                        <p className={styles.memoText}>{memo.text}</p>
+                        <p className={styles.date}>{memo.createdAt}</p>
+                      </div>
+                    </label>
                     <div className={styles.buttons}>
                       <button onClick={() => startEdit(memo)}>編集</button>
                       <button onClick={() => deleteMemo(memo.id)}>削除</button>

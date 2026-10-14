@@ -90,3 +90,13 @@
 .listHeader .subtitle {
   margin: 0;
 }
+
+.memoContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.important {
+  background-color: #fff8e1;
+}
