@@ -73,3 +73,13 @@
   gap: 4px;
   flex-shrink: 0;
 }
+
+.searchForm {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.importantMemo {
+  background-color: #fffbe6; /* 薄い黄色 */
+  border-left: 5px solid #ffc107; /* 左側にアクセント線を引く（任意） */
+}
