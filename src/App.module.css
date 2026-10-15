@@ -40,6 +40,13 @@
   margin-top: 24px;
 }
 
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .empty {
   color: #999;
 }
@@ -51,15 +58,25 @@
 
 .memoItem {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   padding: 8px;
   border-bottom: 1px solid #eee;
 }
 
+.important {
+  background-color: #fff3cd;
+}
+
 .memoText {
   margin: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.memoContent {
+  flex: 1;
+  min-width: 0;
 }
 
 .date {
@@ -72,4 +89,24 @@
   display: flex;
   gap: 4px;
   flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.sortButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.selected {
+  color: #fff;
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
 }
