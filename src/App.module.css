@@ -73,3 +73,25 @@
   gap: 4px;
   flex-shrink: 0;
 }
+.inputError {
+  border: 2px solid red;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 14px;
+}
+
+.emptyMessage {
+  color: #777;
+}
+
+.date {
+  color: #888;
+  font-size: 12px;
+}
+
+.editInput {
+  flex: 1;
+  padding: 8px;
+}
